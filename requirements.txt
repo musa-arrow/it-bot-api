@@ -1,9 +1,9 @@
 --index-url https://download.pytorch.org/whl/cpu
 --extra-index-url https://pypi.org/simple
 
-fastapi
-uvicorn[standard]
-torch
-transformers
-protobuf
-safetensors
+fastapi==0.111.1
+uvicorn[standard]==0.29.0
+torch==2.3.1+cpu
+transformers==4.43.3
+protobuf==4.25.3
+safetensors==0.4.3
