@@ -3,14 +3,25 @@ from pydantic import BaseModel  # Girdi/Çıktı veri tiplerini tanımlamak içi
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
 import torch
 import uvicorn
+import os
+import sys
+print("--- Python Sürümü:", sys.version)
+print("--- Çalışma Dizini:", os.getcwd())
 
 # --- 1. Model Yükleme (Uygulama Başlarken Sadece 1 Kez) ---
 # Bu, API'mizin hızlı çalışmasını sağlar. Her istekte modeli yüklemeyiz.
 
 MODEL_DIR = "./it_ticket_classifier_model" # Model klasörünün yolu
+print(f"--- Model Klasörü Aranıyor: {MODEL_DIR}")
+print(f"--- Klasör Var mı?: {os.path.exists(MODEL_DIR)}")
+if os.path.exists(MODEL_DIR):
+    print(f"--- Klasör İçeriği: {os.listdir(MODEL_DIR)}")
+    model_file_path = os.path.join(MODEL_DIR, 'model.safetensors')
+    print(f"--- model.safetensors Var mı?: {os.path.exists(model_file_path)}")
 
 try:
     # Modeli PyTorch ile yüklüyoruz (çünkü böyle eğittik)
+    print("--- Model yüklenmeye BAŞLIYOR... (RAM artışı beklenebilir)")
     tokenizer = DistilBertTokenizer.from_pretrained(MODEL_DIR)
     model = DistilBertForSequenceClassification.from_pretrained(MODEL_DIR)
 
@@ -19,7 +30,10 @@ try:
     print("--- Model ve Tokenizer başarıyla yüklendi. API hazır. ---")
 except Exception as e:
     print(f"HATA: Model yüklenemedi. '{MODEL_DIR}' klasörünün doğru yerde olduğundan emin misin?")
-    print(f"Hata detayı: {e}")
+    import traceback
+    print("--- HATA DETAYI (Full Traceback): ---")
+    traceback.print_exc() 
+    print("--- HATA BİTTİ ---")
     model = None
     tokenizer = None
 
