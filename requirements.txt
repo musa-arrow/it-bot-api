@@ -2,4 +2,4 @@ fastapi
 uvicorn[standard]
 transformers
 protobuf
-torch --index-url https://download.pytorch.org/whl/cpu
+https://download.pytorch.org/whl/cpu/torch-2.9.0%2Bcpu-cp310-cp310-linux_x86_64.whl
